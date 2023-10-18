@@ -13,7 +13,7 @@ def rgb_to_hsv(rgb_image: np.ndarray):
 
 
 def rgb_to_bgra(rgb_image: np.ndarray):
-    return cv2.cvtColor(rgb_image, cv2.COLOR_RGB2BGRA)
+    return cv2.cvtColor(rgb_image, cv2.COLOR_RGB2BGR)
 
 
 def bgra_to_hsv(bgra_image: np.ndarray):
@@ -21,11 +21,11 @@ def bgra_to_hsv(bgra_image: np.ndarray):
 
 
 def bgra_to_gray_scale(bgra_image: np.ndarray):
-    return cv2.cvtColor(bgra_image, cv2.COLOR_BGRA2GRAY)
+    return cv2.cvtColor(bgra_image, cv2.COLOR_BGR2GRAY)
 
 
 def gray_to_bgra(gray_image: np.ndarray):
-    return cv2.cvtColor(gray_image, cv2.COLOR_GRAY2BGRA)
+    return cv2.cvtColor(gray_image, cv2.COLOR_GRAY2BGR)
 
 
 class Color_Filter_Generic:
@@ -41,6 +41,15 @@ class Color_Filter_Generic:
     @staticmethod
     def mask_image(image: np.ndarray, mask: np.ndarray):
         return cv2.bitwise_and(image, image, mask=mask)
+
+
+class Color_Filter_HSV(Color_Filter_Generic):
+    def __init__(self, hl, hh, sl, sh):
+        self.high = np.array([hh, sh, 255])
+        self.low = np.array([hl, sl, 0])
+
+    def get_mask_for_hsv(self, image_hsv: np.ndarray):
+        return cv2.inRange(image_hsv, self.low, self.high)
 
 
 class Color_Filter(Color_Filter_Generic):
@@ -60,7 +69,7 @@ class Color_Filter(Color_Filter_Generic):
 
 
 class Combined_Filter(Color_Filter_Generic):
-    def __init__(self, filters: Collection[Color_Filter]):
+    def __init__(self, filters: Collection[Color_Filter_Generic]):
         self.filter_collection = filters
 
     def get_mask_for_hsv(self, image_hsv: np.ndarray):

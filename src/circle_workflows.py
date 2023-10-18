@@ -29,7 +29,7 @@ class Hugh_circle_Workflow(Circle_Workflow):
         self._gaussian_blur_before_hugh = 5
         self._min_distance_scale = 8
         self._param1 = 1
-        self._param2 = 24  # 27
+        self._param2 = 23  # 27
         self._color_filter = color_filter
 
     def set_color_filter(self, color_filter):
@@ -37,8 +37,13 @@ class Hugh_circle_Workflow(Circle_Workflow):
 
     def find_circles(self, image_np_bgra: np.ndarray):
         float_image = image_np_bgra.astype(np.float32)
+        float_image = image_np_bgra
         mask = self._color_filter.get_mask_for_bgra(float_image)
+        # print("hhhh")
+        # return 0, 0, mask
+        # print("adsads")
         masked_image = self._color_filter.mask_image(image_np_bgra, mask)
+        # return 0, 0, masked_image
         gray_masked_image = com_v.bgra_to_gray_scale(masked_image)
         eroded_mask = cv2.erode(mask, np.ones(
             (self._erosion_level1, self._erosion_level1)), iterations=1)
@@ -59,4 +64,4 @@ class Hugh_circle_Workflow(Circle_Workflow):
         if(circles is not None):
             circles = circles[0, :]
         # print(circles)
-        return circles, dilated_canny_image, gray_masked_image
+        return circles, dilated_canny_image, mask
