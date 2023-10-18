@@ -46,7 +46,8 @@ class Ball_Finder_Machine:
         return (circle1[0]-circle2[0])**2+(circle2[1]-circle1[1])**2
 
     def run(self, image: np.ndarray):
-        circles = self.circle_workflow.find_circles(image)[0]
+        circles = self.circle_workflow.find_circles(image)
+        print(circles)
         if(circles is None):
             self._circle_seen = False
             return False
