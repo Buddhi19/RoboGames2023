@@ -5,10 +5,6 @@ from Robot_Vision import RobotVision
 from computer_vision import Color_Filter_HSV, Combined_Filter
 import numpy as np
 rgb = cv2.imread("new.jpg")
-# circle=Hugh_circle_Workflow()
-# runner=Ball_Finder_Machine(circle,(256,256))
-# image=robotvision.get_numpy_image_bgra(rgb)
-# h_sv = cv2.cvtColor(rgb, cv2.COLOR_BGR2HSV)
 
 
 class Red:

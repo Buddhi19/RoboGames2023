@@ -1,15 +1,18 @@
 import KobukiDriver as kobuki
 import time
+from camera import Circle
 
 
 def main():
     my_kobuki = kobuki.Kobuki()
-
+    circle = Circle()
     # Play start up sound
     #   my_kobuki.play_on_sound()
 
     while True:
         key = input("Enter command: ")
+        if key=="c":
+            circle.identify_circles()
         if key == "w":
             # Move forward
             my_kobuki.move(200, 200, 0)
