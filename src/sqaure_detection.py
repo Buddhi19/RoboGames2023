@@ -1,7 +1,7 @@
 import cv2
 import numpy as np
-bgr = cv2.imread("new.jpg")
-gray = cv2.cvtColor(bgr, cv2.COLOR_BGR2GRAY)
+# bgr = cv2.imread("new.jpg")
+# gray = cv2.cvtColor(bgr, cv2.COLOR_BGR2GRAY)
 
 class Square:
     def get_square_center(self,contour):
@@ -12,7 +12,8 @@ class Square:
         return (cx, cy, area)
 
 
-    def find_squares(self):
+    def find_squares(self,bgr):
+        gray = cv2.cvtColor(bgr, cv2.COLOR_BGR2GRAY)
         ret, thresh = cv2.threshold(gray, 150, 255, 0)
         contours, _ = cv2.findContours(
             thresh, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
@@ -26,6 +27,7 @@ class Square:
         drawn = cv2.drawContours(bgr, large_quads, -1, (0, 255, 0), 3)
         for cx, cy, a in centers:
             drawn = cv2.circle(drawn, (cx, cy), 5, (255, 0, 0), -1)
+        return drawn
         cv2.imshow("debug", drawn)
         # cv2.waitKey(1)
         return centers

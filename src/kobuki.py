@@ -44,13 +44,14 @@ def main():
     cw = Hugh_circle_Workflow(fil)
     sq = Square()
     i=0
+    j=0
     while True:
         bgr=get_depth_and_bgr()[1]
         filtered_image = fil.get_mask_for_bgra(bgr)
         circle, dilated_image, gray_masked_image = cw.find_circles(bgr)
         drawn = cw.draw_circles(circle, bgr)
         cv2.imshow("debug", drawn)
-        cv2.waitKey(1)
+        # cv2.waitKey(1)
 
         key = input("Enter command: ")
         if key == "w":
@@ -58,10 +59,10 @@ def main():
             my_kobuki.move(200, 200, 0)
         elif key == "s":
             # Move backward
-            my_kobuki.move(-200, -200, 0)
+            my_kobuki.move(0, 0, 0)
         elif key == "a":
             # Turn left
-            my_kobuki.move(200, -200, 0)
+            my_kobuki.move(0, -200, 0)
         elif key == "d":
             # Turn right
             my_kobuki.move(-200, 200, 0)
@@ -82,6 +83,16 @@ def main():
 
         elif key=="c":
             cv2.imwrite(f"image{i}.png",bgr)
+            cv2.imwrite(f"image{i}_detected.png",drawn)
+            i+=1
+
+        elif key=="m":
+            drw=sq.find_squares(bgr)
+            cv2.imwrite(f"image_squre_detected{j}.png",drw)
+            cv2.imwrite(f"image_squre{j}.png",bgr)
+            j+=1
+        elif key=="o":
+            cv2.imwrite(f"{i}.png",bgr)
             i+=1
         elif key == "q":
             # Quit
