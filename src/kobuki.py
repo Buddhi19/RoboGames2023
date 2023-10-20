@@ -1,51 +1,22 @@
-import KobukiDriver as kobuki
-import time
-from camera import Circle
+# import freenect
+import cv2
+from find_and_pickup import Super_Machine
 
+def get_depth_and_bgr():
+    depth, timestamp = freenect.sync_get_depth()
+    rgb, timestamp = freenect.sync_get_video()
+    depth = cv2.cvtColor(depth, cv2.COLOR_GRAY2BGR)
+    bgr = cv2.cvtColor(rgb, cv2.COLOR_RGB2BGR)
+    return depth, bgr
 
 def main():
-    my_kobuki = kobuki.Kobuki()
-    circle = Circle()
-    # Play start up sound
-    #   my_kobuki.play_on_sound()
-
+    Sup = Super_Machine()
     while True:
-        key = input("Enter command: ")
-        if key=="c":
-            circle.identify_circles()
-        if key == "w":
-            # Move forward
-            my_kobuki.move(200, 200, 0)
-        elif key == "s":
-            # Move backward
-            my_kobuki.move(-200, -200, 0)
-        elif key == "a":
-            # Turn left
-            my_kobuki.move(100, -100, 0)
-        elif key == "d":
-            # Turn right
-            my_kobuki.move(-100, 100, 0)
-        elif key == "x":
-            # Stop
-            my_kobuki.move(0, 0, 0)
-        elif key == "1":
-            # Play sound
-            my_kobuki.play_button_sound()
-        elif key == "2":
-            # LED Control
-            my_kobuki.set_led1_green_colour()
-            time.sleep(1)
-            my_kobuki.set_led2_red_colour()
-            time.sleep(1)
-            my_kobuki.clr_led1()
-            my_kobuki.clr_led2()
-        elif key == "q":
-            # Quit
-            break
-
-        # Print sensor data
-        print(my_kobuki.encoder_data())
+        # bgr = get_depth_and_bgr()[1]
+        bgr = cv2.imread("7.png")
+        Sup.run(bgr)
 
 
 if __name__ == "__main__":
     main()
+    

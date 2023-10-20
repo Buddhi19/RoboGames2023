@@ -19,6 +19,7 @@ class Ball_Finder_Machine:
 
     @staticmethod
     def sort_circles_by_radius(circles):
+        print(circles)
         return sorted(circles, key=lambda x: x[2])
 
     @property
@@ -47,7 +48,7 @@ class Ball_Finder_Machine:
 
     def run(self, image: np.ndarray):
         circles = self.circle_workflow.find_circles(image)
-        print(circles)
+        # print(circles)
         if(circles is None):
             self._circle_seen = False
             return False

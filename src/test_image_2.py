@@ -4,7 +4,7 @@ from ball_finder_machine import Ball_Finder_Machine
 from Robot_Vision import RobotVision
 from computer_vision import Color_Filter_HSV, Combined_Filter
 import numpy as np
-rgb = cv2.imread("new.jpg")
+rgb = cv2.imread("17.png")
 
 
 class Red:
@@ -28,7 +28,7 @@ cw = Hugh_circle_Workflow(fil)
 
 while True:
     filtered_image = fil.get_mask_for_bgra(rgb)
-    circle, dilated_image, gray_masked_image = cw.find_circles(rgb)
+    circle = cw.find_circles(rgb)
     drawn = cw.draw_circles(circle, rgb)
     print(circle)
     cv2.imshow("debug", drawn)

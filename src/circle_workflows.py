@@ -64,4 +64,4 @@ class Hugh_circle_Workflow(Circle_Workflow):
         if(circles is not None):
             circles = circles[0, :]
         # print(circles)
-        return circles, dilated_canny_image, mask
+        return circles
