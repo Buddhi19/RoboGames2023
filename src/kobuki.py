@@ -1,7 +1,7 @@
-import KobukiDriver as kobuki
+# import KobukiDriver as kobuki
 import time
 import cv2
-import freenect
+# import freenect
 from circle_workflows import Circle_Workflow, Hugh_circle_Workflow
 from ball_finder_machine import Ball_Finder_Machine
 from Robot_Vision import RobotVision
@@ -31,7 +31,7 @@ def get_depth_and_bgr():
 
 def check_ball(bgr,filter):
     sampled_image=bgr[300:480, :540]
-    filtered_image = filter.get_mask_for_bgra(bgr)
+    filtered_image = filter.get_mask_for_bgra(sampled_image)
     return filtered_image
 
 def main():
@@ -104,4 +104,12 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    # main()
+    img=cv2.imread("10.png")
+    filr = Color_Filter_HSV(Red.hl, Red.hh, Red.sl, Red.sh)
+    filb = Color_Filter_HSV(Blue.hl, Blue.hh, Blue.sl, Blue.sh)
+
+    fil=check_ball(img,filb)
+    print(fil.shape)
+    cv2.imshow("w",fil)
+    cv2.waitKey(10000)
