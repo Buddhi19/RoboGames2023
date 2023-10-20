@@ -1,7 +1,5 @@
 import cv2
 import numpy as np
-# bgr = cv2.imread("new.jpg")
-# gray = cv2.cvtColor(bgr, cv2.COLOR_BGR2GRAY)
 from circle_workflows import Circle_Workflow
 
 
@@ -29,8 +27,9 @@ class Square(Circle_Workflow):
         drawn = cv2.drawContours(bgr, large_quads, -1, (0, 255, 0), 3)
         for cx, cy, a in centers:
             drawn = cv2.circle(drawn, (cx, cy), 5, (255, 0, 0), -1)
-        cv2.imshow("debug", drawn)
-        cv2.waitKey(1)
+        # cv2.imshow("debug", drawn)
+        # cv2.waitKey(1)
         return centers
+    
 
 # cv2.destroyAllWindows()

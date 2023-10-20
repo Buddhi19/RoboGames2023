@@ -1,4 +1,4 @@
-import freenect
+# import freenect
 import cv2
 from find_and_pickup import Super_Machine
 
@@ -12,7 +12,8 @@ def get_depth_and_bgr():
 def main():
     Sup = Super_Machine()
     while True:
-        bgr = get_depth_and_bgr()[1]
+        # bgr = get_depth_and_bgr()[1]
+        bgr = cv2.imread("7.png")
         Sup.run(bgr)
 
 

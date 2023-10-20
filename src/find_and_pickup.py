@@ -7,7 +7,14 @@ import numpy as np
 from circle_workflows import Circle_Workflow, Hugh_circle_Workflow
 from computer_vision import Color_Filter_HSV, Combined_Filter
 from sqaure_detection import Square
-
+import cv2
+# class Kobuki:
+#     def move(self, a, b, c):
+#         print(a,b,c)
+        
+#     def inertial_sensor_data(self):
+#         return {"angle":90}
+        
 
 class Find_and_Pickup:
     def __init__(self, ball_finder: Ball_Finder_Machine, kuboki_controller: Kobuki, turn_limit: float):
@@ -22,7 +29,7 @@ class Find_and_Pickup:
             self.kuboki_controller.move(100, 0, 0)
             return
 
-        control = deviation*200 
+        control = deviation*400 
         if(control is None):
             return
         
@@ -47,15 +54,19 @@ class Blue:
     sh = 255
     
 def check_ball(bgr,filter):
-    sampled_image=bgr[300:480, :540]
+    sampled_image=bgr[360:480, :540]
     filtered_image = filter.get_mask_for_bgra(sampled_image)
     check_val=np.mean(filtered_image)
+    print(check_val)
+    # cv2.imshow("1",filtered_image)
+    # cv2.waitKey(1)
     return check_val>=5
 
 def check_dropped(bgr,filter):
     sampled_image = bgr[300:480, :540]
     filtered_image = filter.get_mask_for_bgra(sampled_image)
     check_val = np.mean(filtered_image)
+    print(check_val)
     return check_val >= 100
 
 def turn_180(kobuki:Kobuki):
@@ -72,9 +83,9 @@ class Super_Machine:
     FINDING = 0
     COLLECTED = 1
     GOING_BACK = 2
-    SEARCHING_TURN_RIGHT = 2
-    SEARCHING_TURN_LEFT = 3
-    GO_FORWARD_A_BIT = 4
+    SEARCHING_TURN_RIGHT = 3
+    SEARCHING_TURN_LEFT = 4
+    GO_FORWARD_A_BIT = 5
 
     def __init__(self) -> None:
         self.state = self.FINDING
@@ -95,16 +106,19 @@ class Super_Machine:
         state machine
         """
         if self.state == self.FINDING:
+            print("FINDING")
             self.find_and_pickup.run_find(image)
             if check_ball(image,self.fil):
                 self.state = self.COLLECTED
             
         if self.state == self.COLLECTED:
+            print("COLLECTING")
             self.find_squares.find_circles(image)
             if check_dropped(image,self.fil):
                 self.state = self.GOING_BACK
                 
         if self.state ==  self.GOING_BACK:
+            print("GOING BACK")
             self.Time+=1
             if self.Time >= 2000:
                 self.state = self.SEARCHING_TURN_LEFT
@@ -112,5 +126,6 @@ class Super_Machine:
             self.kuboki.move(-100,-100,0)
             
         if self.state == self.SEARCHING_TURN_LEFT:
+            print("TURNING LEFT")
             if turn_180(self.kuboki):
                 self.state = self.FINDING
