@@ -1,0 +1,10 @@
+{
+    "cSpell.words": [
+        "imread",
+        "imshow",
+        "Kobuki",
+        "kuboki",
+        "MAXSPEED"
+    ],
+    "python.analysis.autoImportCompletions": true
+}

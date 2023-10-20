@@ -2,8 +2,10 @@ import cv2
 import numpy as np
 # bgr = cv2.imread("new.jpg")
 # gray = cv2.cvtColor(bgr, cv2.COLOR_BGR2GRAY)
+from circle_workflows import Circle_Workflow
 
-class Square:
+
+class Square(Circle_Workflow):
     def get_square_center(self,contour):
         M = cv2.moments(contour)
         cx = int(M['m10']/M['m00'])
@@ -12,7 +14,7 @@ class Square:
         return (cx, cy, area)
 
 
-    def find_squares(self,bgr):
+    def find_circles(self,bgr):
         gray = cv2.cvtColor(bgr, cv2.COLOR_BGR2GRAY)
         ret, thresh = cv2.threshold(gray, 150, 255, 0)
         contours, _ = cv2.findContours(
@@ -27,9 +29,8 @@ class Square:
         drawn = cv2.drawContours(bgr, large_quads, -1, (0, 255, 0), 3)
         for cx, cy, a in centers:
             drawn = cv2.circle(drawn, (cx, cy), 5, (255, 0, 0), -1)
-        return drawn
         cv2.imshow("debug", drawn)
-        # cv2.waitKey(1)
+        cv2.waitKey(1)
         return centers
 
 # cv2.destroyAllWindows()
