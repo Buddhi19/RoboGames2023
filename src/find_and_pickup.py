@@ -113,7 +113,8 @@ class Super_Machine:
             
         if self.state == self.COLLECTED:
             print("COLLECTING")
-            self.find_squares.find_circles(image)
+            sampled_image = image[:300,:540]
+            self.find_squares.find_circles(sampled_image)
             if check_dropped(image,self.fil):
                 self.state = self.GOING_BACK
                 
