@@ -27,8 +27,8 @@ class Square(Circle_Workflow):
         drawn = cv2.drawContours(bgr, large_quads, -1, (0, 255, 0), 3)
         for cx, cy, a in centers:
             drawn = cv2.circle(drawn, (cx, cy), 5, (255, 0, 0), -1)
-        # cv2.imshow("debug", drawn)
-        # cv2.waitKey(1)
+        cv2.imshow("debug", drawn)
+        cv2.waitKey(1)
         return centers
     
 

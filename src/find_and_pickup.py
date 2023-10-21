@@ -1,6 +1,6 @@
 
 from ball_finder_machine import Ball_Finder_Machine, Filtered_Value
-from KobukiDriver import Kobuki
+# from KobukiDriver import Kobuki
 from simple_pid import PID
 from random import choice
 import numpy as np
@@ -8,12 +8,12 @@ from circle_workflows import Circle_Workflow, Hugh_circle_Workflow
 from computer_vision import Color_Filter_HSV, Combined_Filter
 from sqaure_detection import Square
 import cv2
-# class Kobuki:
-#     def move(self, a, b, c):
-#         print(a,b,c)
+class Kobuki:
+    def move(self, a, b, c):
+        print(a,b,c)
         
-#     def inertial_sensor_data(self):
-#         return {"angle":90}
+    def inertial_sensor_data(self):
+        return {"angle":90}
         
 
 class Find_and_Pickup:
@@ -88,7 +88,7 @@ class Super_Machine:
     GO_FORWARD_A_BIT = 5
 
     def __init__(self) -> None:
-        self.state = self.FINDING
+        self.state = self.COLLECTED
         self.filr = Color_Filter_HSV(Red.hl, Red.hh, Red.sl, Red.sh)
         self.filb = Color_Filter_HSV(Blue.hl, Blue.hh, Blue.sl, Blue.sh)
         self.fil = Combined_Filter([self.filr, self.filb])
@@ -114,6 +114,8 @@ class Super_Machine:
         if self.state == self.COLLECTED:
             print("COLLECTING")
             sampled_image = image[:300,:540]
+            # cv2.imshow("1",sampled_image)
+            # cv2.waitKey(1)
             self.find_squares.find_circles(sampled_image)
             if check_dropped(image,self.fil):
                 self.state = self.GOING_BACK
@@ -123,6 +125,7 @@ class Super_Machine:
             self.Time+=1
             if self.Time >= 2000:
                 self.state = self.SEARCHING_TURN_LEFT
+                self.Time = 0
                 
             self.kuboki.move(-100,-100,0)
             
