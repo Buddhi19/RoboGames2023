@@ -73,7 +73,7 @@ def turn_180(kobuki:Kobuki):
     sensor_data = kobuki.inertial_sensor_data()
     angle = sensor_data["angle"]
     error = 180 - angle
-    if abs(error)<0.1:
+    if abs(error)<1:
         return True
     kobuki.move(0, error, 0)
 
@@ -123,6 +123,7 @@ class Super_Machine:
             self.Time+=1
             if self.Time >= 2000:
                 self.state = self.SEARCHING_TURN_LEFT
+                self.Time = 0
                 
             self.kuboki.move(-100,-100,0)
             
